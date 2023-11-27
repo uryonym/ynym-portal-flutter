@@ -32,7 +32,7 @@ class DbHelper {
 
   Future _onCreate(Database database, int version) async {
     await database.execute('''
-      CREATE TABLE tasks('
+      CREATE TABLE tasks(
         _id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         isComplete BOOLEAN,
