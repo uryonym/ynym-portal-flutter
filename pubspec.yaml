@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.23.0
   sqflite: ^2.3.0
   path: ^1.8.3
-  intl: ^0.18.1
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
