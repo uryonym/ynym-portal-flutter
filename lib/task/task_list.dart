@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ynym_portal/model/db_helper.dart';
 import 'package:ynym_portal/model/task.dart';
+import 'package:ynym_portal/task/task_edit.dart';
 import 'package:ynym_portal/task/task_new.dart';
 
 class TaskList extends StatefulWidget {
@@ -11,18 +12,19 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListPageState extends State<TaskList> {
-  List<Task> taskList = [];
+  List<Task> tasks = [];
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    getTasksList();
+
+    getTasks();
   }
 
-  Future getTasksList() async {
+  Future getTasks() async {
     setState(() => isLoading = true);
-    taskList = await DbHelper.instance.selectAllTasks();
+    tasks = await DbHelper.instance.getTasks();
     setState(() => isLoading = false);
   }
 
@@ -40,11 +42,15 @@ class _TaskListPageState extends State<TaskList> {
               )
             : SizedBox(
                 child: ListView.builder(
-                  itemCount: taskList.length,
+                  itemCount: tasks.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final task = taskList[index];
+                    final task = tasks[index];
                     return ListTile(
                       leading: Text(task.title),
+                      onTap: () async {
+                        await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => TaskEdit(task: task)));
+                      },
                     );
                   },
                 ),

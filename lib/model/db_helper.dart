@@ -36,8 +36,8 @@ class DbHelper {
 
   Future<Task> getTask(String id) async {
     final db = await instance.database;
-    final List<Map<String, Object?>> task = await db
-        .query('tasks', where: '_id = ?', whereArgs: [id]);
+    final List<Map<String, Object?>> task = await db.query('tasks',
+        where: 'id = ?', whereArgs: [id]);
 
     return Task.fromMap(task.first);
   }
@@ -52,12 +52,12 @@ class DbHelper {
     final db = await database;
 
     return await db
-        .update('tasks', task.toMap(), where: '_id = ?', whereArgs: [task.id]);
+        .update('tasks', task.toMap(), where: 'id = ?', whereArgs: [task.id]);
   }
 
   Future delete(int id) async {
     final db = await instance.database;
 
-    return await db.delete('tasks', where: '_id = ?', whereArgs: [id]);
+    return await db.delete('tasks', where: 'id = ?', whereArgs: [id]);
   }
 }
