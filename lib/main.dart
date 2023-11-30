@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ynym_portal/task/task_list.dart';
+import 'package:ynym_portal/task_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      routes: <String, WidgetBuilder>{
-        '/': (_) => const TaskList(),
-      },
+      home: const TaskList(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
