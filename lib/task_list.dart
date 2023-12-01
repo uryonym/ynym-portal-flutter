@@ -51,31 +51,33 @@ class _TaskListPageState extends State<TaskList> {
 
   final TextEditingController titleController = TextEditingController();
 
-  void showBottomSheet(String? id) async {
+  void showTaskModal(String? id) async {
     if (id != null) {
       final existingTask = tasks.firstWhere((element) => element.id == id);
       titleController.text = existingTask.title;
+    } else {
+      titleController.text = "";
     }
 
     showModalBottomSheet(
-        elevation: 5,
-        isScrollControlled: true,
         context: context,
+        isScrollControlled: true,
         builder: (_) => Container(
               padding: EdgeInsets.only(
                 top: 30,
                 left: 15,
                 right: 15,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+                bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TextField(
                       controller: titleController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(), hintText: "Title"),
+                      autofocus: true,
                     ),
                     const SizedBox(height: 20),
                     Center(
@@ -92,12 +94,13 @@ class _TaskListPageState extends State<TaskList> {
                       },
                     ))
                   ]),
-            )).whenComplete(() => titleController.text = "");
+            ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('タスク一覧'),
@@ -116,13 +119,13 @@ class _TaskListPageState extends State<TaskList> {
                     trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () => deleteTask(task.id)),
-                    onTap: () => showBottomSheet(task.id),
+                    onTap: () => showTaskModal(task.id),
                   );
                 },
               ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showBottomSheet(null),
+        onPressed: () => showTaskModal(null),
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
